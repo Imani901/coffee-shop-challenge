@@ -1,0 +1,17 @@
+# Byte-compiled / optimized / DLL files
+_pycache_/
+*.py[cod]
+*.so
+
+# Virtual environment
+venv/
+.env/
+
+# Pipenv files
+Pipfile.lock
+
+# VSCode settings
+.vscode/
+
+# macOS
+.DS_Store

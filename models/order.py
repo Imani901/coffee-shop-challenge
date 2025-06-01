@@ -1,6 +1,7 @@
 
-from .Customer import Customer  # Importing ON GLOBAL to avoid circular dependency
-from .Coffee import Coffee     
+from models.customer import Customer
+ # Importing ON GLOBAL to avoid circular dependency
+from .coffee import Coffee     
 
 class Order:
     def __init__(self, customer, coffee, price):

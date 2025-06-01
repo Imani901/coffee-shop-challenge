@@ -20,7 +20,7 @@ class Customer:
         return name
 
     def create_order(self, coffee, price):
-        from .Order import Order  # Avoiding Circular Imports
+        from .order import Order  # Avoiding Circular Imports
         order = Order(self, coffee, price)
         self._orders.append(order)
         coffee._add_order(order)  

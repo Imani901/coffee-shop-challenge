@@ -1,7 +1,7 @@
 # debug.py
-from models.Customer import Customer
-from models.Coffee import Coffee
-from models.Order import Order
+from models.customer import Customer
+from models.coffee import Coffee
+from models.order import Order
 
 if __name__ == "__main__":
     # customers

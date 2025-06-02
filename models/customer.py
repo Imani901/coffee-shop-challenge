@@ -1,7 +1,8 @@
 
+
 class Customer:
     def __init__(self, name):
-        self._name = self._validate_name(name)
+        self.name = name
         self._orders = []
 
     @property
@@ -9,49 +10,29 @@ class Customer:
         return self._name
 
     @name.setter
-    def name(self, new_name):
-        self._name = self._validate_name(new_name)
-
-    def _validate_name(self, name):
-        if not isinstance(name, str):
-            raise TypeError("Customer name must be a string.")
-        if not 1 <= len(name) <= 15:
-            raise ValueError("Customer name must be between 1 and 15 characters long.")
-        return name
-
-    def create_order(self, coffee, price):
-        from .order import Order  # Avoiding Circular Imports
-        order = Order(self, coffee, price)
-        self._orders.append(order)
-        coffee._add_order(order)  
-        return order
+    def name(self, value):
+        if isinstance(value, str) and 1 <= len(value) <= 15:
+            self._name = value
+        else:
+            raise ValueError("Name must be a string of 1–15 characters.")
 
     def orders(self):
-        return list(self._orders)
+        return self._orders
 
     def coffees(self):
-        return list(set(order.coffee for order in self._orders))
+        return list({order.coffee for order in self._orders})
 
-    @classmethod #operates on the class
+    def create_order(self, coffee, price):
+        from .order import Order
+        order = Order(self, coffee, price)
+        self._orders.append(order)
+        coffee._orders.append(order)
+
+    @classmethod
     def most_aficionado(cls, coffee):
-        aficionado = None
-        max_spent = 0
-        customer_spending = {}
-
-        #loop through oders for given coffe
+        spending = {}
         for order in coffee.orders():
-            customer = order.customer
-            price = order.price
-            customer_spending[customer] = customer_spending.get(customer, 0) + price
-            
-        # Determine the customer who spent the most
-        for customer, total_spent in customer_spending.items():
-            if total_spent > max_spent:
-                max_spent = total_spent
-                aficionado = customer
-
-        return aficionado
-
-    #returning string that represents the obj
-    def __repr__(self):
-        return f"Customer(name='{self.name}')"
+            spending[order.customer] = spending.get(order.customer, 0) + order.price
+        if not spending:
+            return None
+        return max(spending, key=spending.get)
